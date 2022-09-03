@@ -61,19 +61,18 @@ class Trabajador:
 
 class Boleta:
     def __init__(self, t: Trabajador):
-        self.__boleta = f"""*** BOLETA DE PAGO ***
-                NOMBRE:             \t{t.nombre}
-                CATEGORIA:          \t{t.categoria}
-                SUELDO BASICO:      \t{t.sueldo}
-                DESCUENTO TARDANZAS:\t{t.descuento_t}
-                PAGO HORAS EXTRA:   \t{t.ph_extra}
-                SUELDO NETO:        \t{t.sueldo_neto}"""
+        self.__boleta = f"*** BOLETA DE PAGO ***\n" \
+                        f"NOMBRE:\t\t\t\t\t\t\t{t.nombre}\n" \
+                        f"CATEGORIA:\t\t\t\t\t\t{t.categoria}\n" \
+                        f"SUELDO BASICO:\t\t\t\t\t{t.sueldo}\n" \
+                        f"DESCUENTO TARDANZAS:\t\t\t{t.descuento_t}\n" \
+                        f"PAGO HORAS EXTRA:\t\t\t\t{t.ph_extra}\n" \
+                        f"SUELDO NETO:\t\t\t\t\t{t.sueldo_neto}"
 
     def crear_boleta(self):
         return self.__boleta
 
 
-# Main
 class ProgramaPrincipal:
     def __init__(self):
         self.__trabajadores = {}
@@ -81,12 +80,12 @@ class ProgramaPrincipal:
 
     def menu(self):
         while True:
-            print("""\t\t\t--------------------------
-            1.Agregar Trabajadores
-            2.Ver lista de Trabajadores
-            3.Generar Boletas
-            4.Eliminar Trabajador
-            ---------------------------""")
+            print("----------------------------\n"
+                  "1.Agregar Trabajadores\n"
+                  "2.Ver lista de Trabajadores\n"
+                  "3.Generar Boletas\n"
+                  "4.Eliminar Trabajador\n"
+                  "----------------------------\n")
             match input("_"):
                 case "1":
                     self.agregar_trabajadores()
@@ -95,8 +94,7 @@ class ProgramaPrincipal:
                         for i in self.__trabajadores:
                             print(f"|{i}: {self.__trabajadores[i]}|")
                     else:
-                        print("No existen trabajadores con los que crear una boleta \n"
-                              "Primero ingrese un trabajor")
+                        print("No existen trabajadores")
                 case "3":
                     self.crear_boletas()
                 case "4":
@@ -104,6 +102,7 @@ class ProgramaPrincipal:
 
     def agregar_trabajadores(self):
         cantidad = int(input("Ingresar número de trabajadores a crear: "))
+        print("-----------------------")
         for i in range(cantidad):
             l_dict = len(self.__trabajadores)
             nombre = input(f"Nombre del trabajador {l_dict}: ")
@@ -111,6 +110,7 @@ class ProgramaPrincipal:
             m_tardanza = int(input(f"Minutos de tardanza del trabajador {l_dict}: "))
             categoria = input(f"Categoria del trabajador {l_dict}: ")
             self.__trabajadores.update({l_dict: (Trabajador(nombre, horas_extra, m_tardanza, categoria))})
+            print("-----------------------")
 
     def crear_boletas(self):
         if len(self.__trabajadores) > 0:
@@ -119,7 +119,8 @@ class ProgramaPrincipal:
             trabajadores = input("Elije el numero de trabajador o trabajadores con los que se creara la boleta: ")
             trabajadores = trabajadores.replace(" ", "").split(",")
             for i in trabajadores:
-                print(f"Boleta del trabajador {i}: " + Boleta(self.__trabajadores[int(i)]).crear_boleta() + " \n")
+                print(f"Boleta del trabajador {i}:\n" + "-----------------------\n" +
+                      f"{Boleta(self.__trabajadores[int(i)]).crear_boleta()}" + " \n" + "-----------------------")
         else:
             print("No existen trabajadores con los que crear una boleta \n"
                   "Primero ingrese un trabajor")
