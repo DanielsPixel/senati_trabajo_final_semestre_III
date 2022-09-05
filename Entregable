@@ -1,0 +1,164 @@
+from random import randint
+
+
+class Persona:
+    def __init__(self, nombre: str, edad: int, dni: int, sexo: str, peso: float, altura: float):
+        self.__nombre = nombre
+        self.__edad = edad
+        self.__dni = dni
+        self.__sexo = sexo
+        self.__peso = peso
+        self.__altura = altura
+
+    def __str__(self):
+        return f"Nom: {self.__nombre}|Edad: {self.__edad}|Dni: {self.__dni}|Sexo: {self.__sexo}|Peso: {self.__peso}" \
+               f"|Alt: {self.__altura}"
+
+    @staticmethod
+    def generar_dni():
+        return f"{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}" \
+               f"{randint(0, 9)}{randint(0, 9)}"
+
+    @property
+    def nombre(self):
+        return self.__nombre
+
+    @property
+    def edad(self):
+        return self.__edad
+
+    @property
+    def dni(self):
+        return self.__dni
+
+    @property
+    def sexo(self):
+        return self.__sexo
+
+    @property
+    def peso(self):
+        return self.__peso
+
+    @property
+    def altura(self):
+        return self.__altura
+
+    def calcular_imc(self):
+        imc = self.__peso / (self.__altura * self.__altura)
+        if imc < 18.5:
+            return imc, "Bajo"
+        elif 18.5 <= imc <= 24.9:
+            return imc, "Normal"
+        elif 25 <= imc <= 29.9:
+            return imc, "Sobrepeso"
+        elif 30 <= imc <= 34.9:
+            return imc, "ObesidadI"
+        elif 35 <= imc <= 39.9:
+            return imc, "ObesidadII"
+        elif imc > 39.9:
+            return imc, "ObesidadIII"
+
+    def mayor_edad(self):
+        return True if self.__edad >= 18 else False
+
+    def comprobar_sexo(self):
+        match self.__sexo.upper():
+            case "HOMBRE" | "H" | "MUJER" | "M":
+                return "Correcto"
+            case _:
+                return "Incorrecto"
+
+
+class Menu:
+    def __init__(self, persona: Persona):
+        self.__persona = persona
+        self.opciones()
+
+    def opciones(self):
+        print("----------------------\n"
+              "1.Nombre de Persona \n"
+              "2.Edad de la Persona \n"
+              "3.Sexo de la Persona \n"
+              "4.Peso de la Persona \n"
+              "5.Altura de la Persona \n"
+              "6.Calcular IMC \n"
+              "7.Comprobar sexo \n"
+              "8.Salir del programa \n"
+              "----------------------")
+        while True:
+            opcion = input("_")
+            match opcion.upper():
+                case "1":
+                    print(self.__persona.nombre)
+                case "2":
+                    print(self.__persona.edad)
+                case "3":
+                    print(self.__persona.sexo)
+                case "4":
+                    print(self.__persona.peso)
+                case "5":
+                    print(self.__persona.altura)
+                case "6":
+                    print(self.__persona.calcular_imc())
+                case "7":
+                    print("Sexo Valido" if self.__persona.comprobar_sexo else "Sexo incorrecto")
+                case "SALIR" | "8":
+                    break
+                case _:
+                    print("Comando incorrecto")
+
+
+# Main
+persona01 = Persona("Daniel", 19, 13941132, "Hombre", 64, 1.76)
+programa = Menu(persona01)
+
+
+class Operacion:
+    def __init__(self, num1: float, num2: float):
+        self.__num1 = num1
+        self.__num2 = num2
+
+    @property
+    def numeros(self):
+        return self.__num1, self.__num2
+
+
+class Suma(Operacion):
+    def sumar(self):
+        print(super().numeros[0] + super().numeros[1])
+
+
+class Resta(Operacion):
+    def restar(self):
+        if super().numeros[0] > super().numeros[1]:
+            x = super().numeros[0]
+            y = super().numeros[1]
+        else:
+            x = super().numeros[1]
+            y = super().numeros[0]
+
+        print(x - y)
+
+
+# Main
+def operar():
+    respuestas = float(input("Ingrese x: ")), float(input("Ingrese y: "))
+    operacion01 = Operacion(respuestas[0], respuestas[1])
+    suma = Suma(respuestas[0], respuestas[1])
+    resta = Resta(respuestas[0], respuestas[1])
+    print("*** Para salir escriba salir ***")
+    while True:
+        respuesta = input("Sumar o restar?: ")
+        print("x = " + str(operacion01.numeros[0]) + "| y = " + str(operacion01.numeros[1]))
+        match respuesta.upper():
+            case "SUMAR":
+                suma.sumar()
+            case "RESTAR":
+                resta.restar()
+            case "SALIR":
+                quit()
+            case _:
+                print("Comando incorrecto")
+
+
+operar()
