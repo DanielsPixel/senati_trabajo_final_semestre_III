@@ -89,17 +89,17 @@ class Menu:
             opcion = input("_")
             match opcion.upper():
                 case "1":
-                    print(self.__persona.nombre)
+                    print("Nombre: " + self.__persona.nombre)
                 case "2":
-                    print(self.__persona.edad)
+                    print("Edad: " + str(self.__persona.edad))
                 case "3":
-                    print(self.__persona.sexo)
+                    print("Sexo: " + self.__persona.sexo)
                 case "4":
-                    print(self.__persona.peso)
+                    print("Peso: " + str(self.__persona.peso))
                 case "5":
-                    print(self.__persona.altura)
+                    print("Altura: " + str(self.__persona.altura))
                 case "6":
-                    print(self.__persona.calcular_imc())
+                    print("IMC: " + str(self.__persona.calcular_imc()))
                 case "7":
                     print("Sexo Valido" if self.__persona.comprobar_sexo else "Sexo incorrecto")
                 case "SALIR" | "8":
